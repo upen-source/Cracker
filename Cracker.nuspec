@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Cracker.Template</id>
+    <title>Cracker.Template</title>
+    <version>0.0.1</version>
+    <authors>Andres Galvan</authors>
+    <owners>Andres Galvan</owners>
+    <description>
+      Template for college assigments
+    </description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/upen-source/Cracker</projectUrl>
+    <repository type="git" url="https://github.com/upen-source/Cracker" />
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Initial release</releaseNotes>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <tags>console c# dependency-injection template</tags>
+    <copyright>Copyright 2021</copyright>
+  </metadata>
+  <files>
+    <file src=".\**" target="content" exclude="**\bin\**;**\*.nuspec;**\README.md;*.config;**\obj\**;**\.git\**;**\.github\workflows\publish.yml;**\*.user;**\.idea\**;**\.vscode\**;\**\.template.config\**" />
+  </files>
+</package>

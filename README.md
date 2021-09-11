@@ -1,26 +1,26 @@
-<img src="clinjection.png" alt="clinjected logo" width="20%"/>
+<img src="cracker.png" alt="Cracker logo" width="20%"/>
 
-# CLInjected
+# Cracker
 
-[![.NET](https://github.com/afgalvan/CLInjected/actions/workflows/dotnet.yml/badge.svg)](https://github.com/afgalvan/CLInjected/actions/workflows/dotnet.yml)
-[![NuGet](https://github.com/afgalvan/CLInjected/actions/workflows/publish.yml/badge.svg)](https://github.com/afgalvan/CLInjected/actions/workflows/publish.yml)
-[![Nuget Version](https://img.shields.io/nuget/v/CLInjected.Template?label=version&logo=NuGet&labelColor=22272E&color=blue)](https://www.nuget.org/packages/CLInjected.Template/)
+[![.NET](https://github.com/upen-source/Cracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/upen-source/Cracker/actions/workflows/dotnet.yml)
+[![NuGet](https://github.com/upen-source/Cracker/actions/workflows/publish.yml/badge.svg)](https://github.com/upen-source/Cracker/actions/workflows/publish.yml)
+[![Nuget Version](https://img.shields.io/nuget/v/Cracker.Template?label=version&logo=NuGet&labelColor=22272E&color=blue)](https://www.nuget.org/packages/Cracker.Template/)
 
 C# console project structure with dependency injection.
 
 ## Features
 - Dependency injection
-- Docker & docker compose
+- Anya's layers
 - editorconfig
 
 ## Installation
 
 ```bash
-dotnet new -i CLInjected.Template
+dotnet new -i Cracker.Template
 ```
 
 ## Usage
 
 ```bash
-dotnet new cli-di -o Your.Project
+dotnet new crack -o Your.Project
 ```
