@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CLInjected.Template</id>
+    <title>CLInjected.Template</title>
+    <version>0.1.2</version>
+    <authors>Andres Galvan</authors>
+    <owners>Andres Galvan</owners>
+    <description>
+      Template console application with dependency injection
+    </description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/afgalvan/CLInjected</projectUrl>
+    <repository type="git" url="https://github.com/afgalvan/CLInjected" />
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Remove nuget data at csproj template file</releaseNotes>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+    <tags>console c# dependency-injection template docker</tags>
+    <copyright>Copyright 2021</copyright>
+  </metadata>
+  <files>
+    <file src=".\**" target="content" exclude="**\bin\**;*.nuspec;*.config;**\obj\**;**\.git\**;**\.github\workflows\publish.yml;**\*.user;**\.idea\**;**\.vscode\**;\**\.template.config\**" />
+  </files>
+</package>
