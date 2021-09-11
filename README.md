@@ -2,7 +2,6 @@
 
 # Cracker
 
-[![.NET](https://github.com/upen-source/Cracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/upen-source/Cracker/actions/workflows/dotnet.yml)
 [![NuGet](https://github.com/upen-source/Cracker/actions/workflows/publish.yml/badge.svg)](https://github.com/upen-source/Cracker/actions/workflows/publish.yml)
 [![Nuget Version](https://img.shields.io/nuget/v/Cracker.Template?label=version&logo=NuGet&labelColor=22272E&color=blue)](https://www.nuget.org/packages/Cracker.Template/)
 
