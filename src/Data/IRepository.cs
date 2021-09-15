@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public interface IAsyncRepository<in TId, TEntity>
+    public interface IRepository<in TId, TEntity>
     {
         public Task Save(TEntity entity, CancellationToken cancellation);
         public Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation);
