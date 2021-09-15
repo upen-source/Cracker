@@ -1,29 +1,26 @@
-using Cracker.Presentation;
+using Data;
+using Logic;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation;
 
 namespace Cracker.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddPresentationDependencies(this IServiceCollection services)
-        {
-            services.AddHostedService<ConsoleApp>();
-        }
-
         public static void AddDataDependencies(this IServiceCollection services)
         {
-            // Inject dependencies
+            services.AddScoped<IFileUpdater, JsonFileUpdater>();
+            services.AddScoped<ISomeEntityRepository, SomeJsonRepository>();
         }
 
         public static void AddLogicDependencies(this IServiceCollection services)
         {
-            // Inject dependencies
+            services.AddScoped<SomeService>();
         }
 
-        public static void AddEntityDependencies(this IServiceCollection services)
+        public static void AddPresentationDependencies(this IServiceCollection services)
         {
-            // Inject dependencies
+            services.AddHostedService<ConsoleApp>();
         }
-
     }
 }

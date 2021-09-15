@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Cracker
 {
-    static class Program
+    internal static class Program
     {
         private static void Main(string[] args) =>
             CreateHostBuilder(args).Build().Run();
@@ -15,7 +15,6 @@ namespace Cracker
 
         private static void InjectDependencies(IServiceCollection services)
         {
-            services.AddEntityDependencies();
             services.AddDataDependencies();
             services.AddLogicDependencies();
             services.AddPresentationDependencies();
