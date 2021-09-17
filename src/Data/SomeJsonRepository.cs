@@ -21,14 +21,12 @@ namespace Data
             _filePath    = configuration["Persistence:FilePath"];
         }
 
-        public async Task Save(SomeEntity entity,
-            CancellationToken cancellation)
+        public async Task Save(SomeEntity entity, CancellationToken cancellation)
         {
-            IEnumerable<SomeEntity> entities = await GetAll(cancellation);
-            var updateContent = new UpdateContent<SomeEntity>(_filePath, entities, entity);
-            await _fileUpdater.UpdateFileWith(updateContent,
-                (someEntities, someEntity) => someEntities.Add(someEntity),
-                cancellation);
+            List<SomeEntity> paymentsUpdated = (await GetAll(cancellation)).ToList();
+            paymentsUpdated.Add(entity);
+            var updateContent = new UpdateContent<SomeEntity>(_filePath, paymentsUpdated);
+            await _fileUpdater.UpdateFileWith(updateContent, cancellation);
         }
 
         public async Task<IEnumerable<SomeEntity>> GetAll(CancellationToken cancellation)
@@ -41,9 +39,12 @@ namespace Data
             return (await GetAll(cancellation)).FirstOrDefault(e => e.Id == id);
         }
 
-        public Task RemoveById(string id, CancellationToken cancellation)
+        public async Task RemoveById(string id, CancellationToken cancellation)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<SomeEntity> removedEntityCollection =
+                (await GetAll(cancellation)).Where(e => e.Id != id);
+            var updateContent = new UpdateContent<SomeEntity>(_filePath, removedEntityCollection);
+            await _fileUpdater.UpdateFileWith(updateContent, cancellation);
         }
 
         public Task UpdateById(string id, SomeEntity newData,

@@ -18,14 +18,11 @@ namespace Data
         }
 
         public async Task UpdateFileWith<TEntity>(UpdateContent<TEntity> updateContent,
-            Action<List<TEntity>, TEntity> updateMethod,
             CancellationToken cancellation)
         {
-            (string fileName, IEnumerable<TEntity> entities, TEntity entity) = updateContent;
+            (string fileName, IEnumerable<TEntity> entities) = updateContent;
 
-            List<TEntity> convertedEntities = entities.ToList();
-            updateMethod(convertedEntities, entity);
-            string serializedObject = JsonConvert.SerializeObject(convertedEntities, _jsonSettings);
+            string serializedObject = JsonConvert.SerializeObject(entities, _jsonSettings);
             await File.WriteAllTextAsync(fileName, serializedObject, cancellation);
         }
 
