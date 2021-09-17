@@ -47,10 +47,11 @@ namespace Data
             await _fileUpdater.UpdateFileWith(updateContent, cancellation);
         }
 
-        public Task UpdateById(string id, SomeEntity newData,
+        public async Task UpdateById(string id, SomeEntity newData,
             CancellationToken cancellation)
         {
-            throw new System.NotImplementedException();
+            await RemoveById(id, cancellation);
+            await Save(newData, cancellation);
         }
     }
 }
