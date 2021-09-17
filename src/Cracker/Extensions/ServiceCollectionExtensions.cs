@@ -1,6 +1,8 @@
+using System.Globalization;
 using Data;
 using Logic;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Presentation;
 
 namespace Cracker.Extensions
@@ -9,7 +11,14 @@ namespace Cracker.Extensions
     {
         public static void AddDataDependencies(this IServiceCollection services)
         {
-            services.AddScoped<IFileUpdater, JsonFileUpdater>();
+            services.AddSingleton(_ => new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                Culture          = CultureInfo.InvariantCulture,
+                Formatting       = Formatting.Indented
+            });
+            services.AddScoped<IFileUpdater, JsonFileChannel>();
+            services.AddScoped<IFileContentMapper, JsonFileChannel>();
             services.AddScoped<ISomeEntityRepository, SomeJsonRepository>();
         }
 
