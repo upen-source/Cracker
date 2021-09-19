@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using Data.Utils;
 
 namespace Data
 {
-    public class JsonRepository<TEntity> : IBaseRepository<TEntity>
+    public class JsonRepository<TEntity> : IRepository<TEntity>
     {
         private readonly string             _filePath;
         private readonly IFileUpdater       _fileUpdater;
@@ -34,7 +35,18 @@ namespace Data
             return await _fileMapper.MapFileContent<TEntity>(_filePath);
         }
 
-        protected async Task SaveAll(IEnumerable<TEntity> entities,
+        public async Task RemoveWhere(Func<TEntity, bool> predicate, CancellationToken cancellation)
+        {
+            IEnumerable<TEntity> removedEntityCollection = (await GetAll(cancellation)).Where(predicate);
+            await SaveAll(removedEntityCollection, cancellation);
+        }
+
+        public async Task<TEntity?> GetWhere(Func<TEntity, bool> predicate, CancellationToken cancellation)
+        {
+            return (await GetAll(cancellation)).FirstOrDefault(predicate);
+        }
+
+        private async Task SaveAll(IEnumerable<TEntity> entities,
             CancellationToken cancellation)
         {
             var updateContent = new UpdateContent<TEntity>(_filePath, entities);

@@ -2,6 +2,7 @@ using System.Globalization;
 using Data;
 using Data.Contracts;
 using Data.Utils;
+using Entities;
 using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ namespace Cracker.Extensions
             });
             services.AddScoped<IFileUpdater, JsonFileChannel>();
             services.AddScoped<IFileContentMapper, JsonFileChannel>();
-            services.AddScoped<ISomeEntityRepository, SomeJsonRepository>();
+            services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
         }
 
         public static void AddLogicDependencies(this IServiceCollection services)

@@ -25,7 +25,8 @@ namespace Logic
         [RequiredArguments]
         public async Task Add(SomeEntity entity, CancellationToken cancellation)
         {
-            if (await _repository.GetById(entity.Id, cancellation) != null)
+            if (await _repository.GetWhere(someEntity => someEntity.Id == entity.Id,
+                cancellation) != null)
             {
                 throw new InvalidOperationException("");
             }
@@ -34,19 +35,16 @@ namespace Logic
         }
 
         [RequiredReturn]
-        public async Task<SomeEntity> GetById([NonEmptyString] string id, CancellationToken cancellation)
+        public async Task<SomeEntity> GetById([NonEmptyString] string id,
+            CancellationToken cancellation)
         {
-            return await _repository.GetById(id, cancellation);
+            return await _repository.GetWhere(entity => entity.Id == id, cancellation);
         }
 
-        public async Task RemoveById([NonEmptyString] string id, CancellationToken cancellation)
+        public async Task RemoveById(string id, CancellationToken cancellation)
         {
-            if (await _repository.GetById(id, cancellation) == null)
-            {
-                throw new InvalidOperationException("");
-            }
-
-            await _repository.RemoveById(id, cancellation);
+            await GetById(id, cancellation);
+            await _repository.RemoveWhere(entity => entity.Id == id, cancellation);
         }
 
         public async Task UpdateById(string id, SomeEntity entity, CancellationToken cancellation)

@@ -2,7 +2,7 @@
 
 namespace Data.Contracts
 {
-    public interface ISomeEntityRepository : IRepository<string, SomeEntity>
+    public interface ISomeEntityRepository : IRepository<SomeEntity>
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cracker.Extensions;
+﻿using System.Threading.Tasks;
+using Cracker.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -6,8 +7,8 @@ namespace Cracker
 {
     internal static class Program
     {
-        private static void Main(string[] args) =>
-            CreateHostBuilder(args).Build().Run();
+        private static Task Main(string[] args) =>
+            CreateHostBuilder(args).Build().RunAsync();
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

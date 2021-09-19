@@ -68,7 +68,7 @@ namespace Presentation
             await _service.RemoveById(updated.Id, cancellationToken);
         }
 
-        public async Task RegisterNewEntity(CancellationToken cancellationToken)
+        private async Task RegisterNewEntity(CancellationToken cancellationToken)
         {
             Console.Write("Ingrese un id: ");
             string id = Console.ReadLine();
@@ -77,7 +77,7 @@ namespace Presentation
             await _service.Add(new SomeEntity(id, name), cancellationToken);
         }
 
-        public async Task ShowAll(CancellationToken cancellationToken)
+        private async Task ShowAll(CancellationToken cancellationToken)
         {
             (await _service.GetAll(cancellationToken)).ToList().ForEach(Console.WriteLine);
         }

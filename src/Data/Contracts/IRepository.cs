@@ -1,11 +1,15 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Data.Contracts
 {
-    public interface IRepository<in TId, TEntity> : IBaseRepository<TEntity>
+    public interface IRepository<TEntity>
     {
-        public Task<TEntity?> GetById(TId id, CancellationToken cancellation);
-        public Task RemoveById(TId id, CancellationToken cancellation);
+        public Task Add(TEntity entity, CancellationToken cancellation);
+        public Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation);
+        public Task RemoveWhere(Func<TEntity, bool> predicate, CancellationToken cancellation);
+        public Task<TEntity?> GetWhere(Func<TEntity, bool> predicate, CancellationToken cancellation);
     }
 }
