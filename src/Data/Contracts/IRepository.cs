@@ -10,6 +10,5 @@ namespace Data
         public Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation);
         public Task<TEntity?> GetById(TId id, CancellationToken cancellation);
         public Task RemoveById(TId id, CancellationToken cancellation);
-        public Task UpdateById(TId id, TEntity newData, CancellationToken cancellation);
     }
 }
