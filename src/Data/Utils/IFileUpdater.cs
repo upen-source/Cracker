@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Data.Utils
 {
     public record UpdateContent<TEntity>(string FileName, IEnumerable<TEntity> Entities);
 

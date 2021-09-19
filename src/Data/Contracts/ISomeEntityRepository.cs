@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace Data
+namespace Data.Contracts
 {
     public interface ISomeEntityRepository : IRepository<string, SomeEntity>
     {

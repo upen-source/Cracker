@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Data
+namespace Data.Utils
 {
     public class JsonFileChannel : IFileUpdater, IFileContentMapper
     {

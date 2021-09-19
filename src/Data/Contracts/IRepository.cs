@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Data.Contracts
 {
-    public interface IRepository<in TId, TEntity>
+    public interface IRepository<in TId, TEntity> : IBaseRepository<TEntity>
     {
-        public Task Save(TEntity entity, CancellationToken cancellation);
-        public Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation);
         public Task<TEntity?> GetById(TId id, CancellationToken cancellation);
         public Task RemoveById(TId id, CancellationToken cancellation);
     }

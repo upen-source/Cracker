@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Data.Utils
 {
     public interface IFileContentMapper
     {
