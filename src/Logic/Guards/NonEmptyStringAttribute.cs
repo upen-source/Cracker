@@ -7,10 +7,19 @@ namespace Logic.Guards
     [AttributeUsage(AttributeTargets.Parameter)]
     public class NonEmptyStringAttribute : Attribute, IParameterAdvice
     {
+        public string ErrorMessage { get; }
+
+        public NonEmptyStringAttribute(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+
         public void Advise(ParameterAdviceContext context)
         {
             var value = (string)context.Value;
-            Guard.Argument(value, context.TargetName).NotNull().NotEmpty();
+            Guard.Argument(value, context.TargetName)
+                .NotNull(ErrorMessage)
+                .NotEmpty(_ => ErrorMessage);
             context.Proceed();
         }
     }

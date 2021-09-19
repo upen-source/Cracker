@@ -29,11 +29,12 @@ namespace Presentation
         {
             string[] options =
             {
-                "Usar todos los servicios", "Registrar nueva entidad", "Consultar todo", "", "Salir"
+                "Usar todos los servicios", "Registrar nueva entidad", "Consultar todo", "Buscar",
+                "", "Salir"
             };
             Func<CancellationToken, Task>[] actions =
             {
-                UseAllServices, RegisterNewEntity, ShowAll, Menu.PassAsync, Menu.ExitAsync
+                UseAllServices, RegisterNewEntity, ShowAll, FindOne, Menu.PassAsync, Menu.ExitAsync
             };
             Menu menu = _menuBuilder
                 .WithOptions(options)
@@ -48,7 +49,6 @@ namespace Presentation
                 await menu.DisplayAndReadAsync(cancellationToken);
             }
         }
-
 
         private async Task UseAllServices(CancellationToken cancellationToken)
         {
@@ -80,6 +80,13 @@ namespace Presentation
         private async Task ShowAll(CancellationToken cancellationToken)
         {
             (await _service.GetAll(cancellationToken)).ToList().ForEach(Console.WriteLine);
+        }
+
+        private async Task FindOne(CancellationToken cancellationToken)
+        {
+            Console.Write("Ingrese el id a buscar: ");
+            string id = Console.ReadLine();
+            Console.WriteLine($"Encontrado: {await _service.GetById(id, cancellationToken)}");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

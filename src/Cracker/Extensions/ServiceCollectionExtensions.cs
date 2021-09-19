@@ -24,6 +24,7 @@ namespace Cracker.Extensions
             services.AddScoped<IFileUpdater, JsonFileChannel>();
             services.AddScoped<IFileContentMapper, JsonFileChannel>();
             services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
+            services.AddScoped<IPeopleRepository, PeopleJsonRepository>();
         }
 
         public static void AddLogicDependencies(this IServiceCollection services)
