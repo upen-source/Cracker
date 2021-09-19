@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Data;
+using Data.Contracts;
 using Entities;
+using Logic.Guards;
 
 namespace Logic
 {
@@ -21,24 +22,24 @@ namespace Logic
             return await _repository.GetAll(cancellation);
         }
 
-        public async Task Save(SomeEntity entity, CancellationToken cancellation)
+        [RequiredArguments]
+        public async Task Add(SomeEntity entity, CancellationToken cancellation)
         {
             if (await _repository.GetById(entity.Id, cancellation) != null)
             {
                 throw new InvalidOperationException("");
             }
 
-            await _repository.Save(entity, cancellation);
+            await _repository.Add(entity, cancellation);
         }
 
-        public async Task<SomeEntity> GetById(string id, CancellationToken cancellation)
+        [RequiredReturn]
+        public async Task<SomeEntity> GetById([NonEmptyString] string id, CancellationToken cancellation)
         {
-            SomeEntity entity = await _repository.GetById(id, cancellation);
-            if (entity == null) throw new InvalidOperationException("");
-            return entity;
+            return await _repository.GetById(id, cancellation);
         }
 
-        public async Task RemoveById(string id, CancellationToken cancellation)
+        public async Task RemoveById([NonEmptyString] string id, CancellationToken cancellation)
         {
             if (await _repository.GetById(id, cancellation) == null)
             {
@@ -50,12 +51,8 @@ namespace Logic
 
         public async Task UpdateById(string id, SomeEntity entity, CancellationToken cancellation)
         {
-            if (await _repository.GetById(id, cancellation) == null)
-            {
-                throw new InvalidOperationException("");
-            }
-
-            await _repository.UpdateById(id, entity, cancellation);
+            await RemoveById(id, cancellation);
+            await Add(entity, cancellation);
         }
     }
 }
