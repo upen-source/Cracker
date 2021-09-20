@@ -1,6 +1,6 @@
 ﻿using System;
 using ArxOne.MrAdvice.Advice;
-using Dawn;
+using Logic.Exceptions;
 
 namespace Logic.Filters
 {
@@ -17,9 +17,7 @@ namespace Logic.Filters
         public void Advise(ParameterAdviceContext context)
         {
             var value = (string)context.Value;
-            Guard.Argument(value, context.TargetName)
-                .NotNull(ErrorMessage)
-                .NotEmpty(_ => ErrorMessage);
+            if (string.IsNullOrEmpty(value)) throw new InvalidArgumentException(ErrorMessage);
             context.Proceed();
         }
     }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using ArxOne.MrAdvice.Advice;
+using Logic.Exceptions;
 
 namespace Logic.Filters
 {

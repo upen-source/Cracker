@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Presentation.Filters;
 using Presentation.Utils;
 
 namespace Presentation.UIBuilder
@@ -44,27 +43,22 @@ namespace Presentation.UIBuilder
             AsyncActions = updatedActions;
         }
 
-        private void Display()
-        {
-            if (ShouldClearConsole) Console.Clear();
-            DisplayTitle();
-            _boxBuilder.BoxIn(Options);
-        }
-
         public async Task DisplayAndReadAsync(CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
-            {
                 await ExitAsync(cancellationToken);
-            }
 
-            Display();
-            var range  = new ARange(0, AsyncActions.Count() - 2);
-            int choice = ConsoleReader.ReadNumericData(Question, Convert.ToInt32, range);
-            if (ClearEachOption) Console.Clear();
+            DisplayMenuContent();
+            int choice = ReadUserChoice();
+            ClearConsoleIfPossible();
             await ExecuteOptionAsync(choice, cancellationToken);
-            Console.Write("\nPresione cualquier tecla para volver al menu...");
-            Console.ReadKey();
+        }
+
+        private void DisplayMenuContent()
+        {
+            ClearConsoleIfPossible();
+            DisplayTitle();
+            _boxBuilder.BoxIn(Options);
         }
 
         private void DisplayTitle()
@@ -75,7 +69,18 @@ namespace Presentation.UIBuilder
             Console.WriteLine($"{titleSpace}{Title}\n");
         }
 
-        [ExceptionPrompter]
+        private int ReadUserChoice()
+        {
+            var range = new ARange(0, AsyncActions.Count() - 2);
+            return ConsoleReader.ReadNumericData(Question, Convert.ToInt32, range);
+        }
+
+        private void ClearConsoleIfPossible()
+        {
+            if (ShouldClearConsole) Console.Clear();
+            if (ClearEachOption) Console.Clear();
+        }
+
         private async Task ExecuteOptionAsync(int choice, CancellationToken cancellationToken)
         {
             await AsyncActions.ElementAt(GetMenuIndex(choice))(cancellationToken);

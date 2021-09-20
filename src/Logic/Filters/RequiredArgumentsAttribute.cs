@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ArxOne.MrAdvice.Advice;
-using Dawn;
+using Logic.Exceptions;
 
 namespace Logic.Filters
 {
@@ -12,7 +13,11 @@ namespace Logic.Filters
 
         public async Task Advise(MethodAsyncAdviceContext context)
         {
-            Guard.Argument(context.Arguments).DoesNotContainNull(_ => ErrorMessage);
+            if (context.Arguments.Any(arg => arg == null))
+            {
+                throw new InvalidArgumentException(ErrorMessage);
+            }
+
             await context.ProceedAsync();
         }
     }

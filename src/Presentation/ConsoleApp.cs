@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Entities;
 using Logic;
 using Microsoft.Extensions.Hosting;
+using Presentation.Filters;
 using Presentation.UIBuilder;
 
 namespace Presentation
@@ -33,6 +34,8 @@ namespace Presentation
             while (true)
             {
                 await menu.DisplayAndReadAsync(cancellationToken);
+                Console.Write("\nPresione cualquier tecla para volver al menu...");
+                Console.ReadKey();
             }
         }
 
@@ -60,7 +63,7 @@ namespace Presentation
         {
             return new Func<CancellationToken, Task>[]
             {
-                RegisterNewEntity, ShowAll, FindOne, RemoveOne, UpdateOne, Menu.PassAsync,
+                RegisterNewEntity, ShowAll, ShowOne, RemoveOne, UpdateOne, Menu.PassAsync,
                 Menu.ExitAsync
             };
         }
@@ -74,23 +77,27 @@ namespace Presentation
             return new SomeEntity(id, name);
         }
 
+        [ExceptionPrompter]
         private async Task RegisterNewEntity(CancellationToken cancellationToken)
         {
             await _service.Add(AskEntityData(), cancellationToken);
         }
 
+        [ExceptionPrompter]
         private async Task ShowAll(CancellationToken cancellationToken)
         {
             (await _service.GetAll(cancellationToken)).ToList().ForEach(Console.WriteLine);
         }
 
-        private async Task FindOne(CancellationToken cancellationToken)
+        [ExceptionPrompter]
+        private async Task ShowOne(CancellationToken cancellationToken)
         {
             Console.Write("Ingrese el id a buscar: ");
             string id = Console.ReadLine();
             Console.WriteLine($"Encontrado: {await _service.GetById(id, cancellationToken)}");
         }
 
+        [ExceptionPrompter]
         private async Task RemoveOne(CancellationToken cancellationToken)
         {
             Console.Write("Ingrese el id a borrar: ");
@@ -99,6 +106,7 @@ namespace Presentation
             Console.WriteLine("Entidad borrada");
         }
 
+        [ExceptionPrompter]
         private async Task UpdateOne(CancellationToken cancellationToken)
         {
             Console.Write("Ingrese el id de la entidad para actualizar: ");

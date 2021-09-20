@@ -15,8 +15,15 @@ namespace Presentation.Filters
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                WriteError(e.Message);
             }
+        }
+
+        private static void WriteError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: {message}");
+            Console.ResetColor();
         }
     }
 }
