@@ -11,12 +11,10 @@ namespace Logic
     public class SomeService
     {
         private readonly ISomeEntityRepository _repository;
-        private readonly IPeopleRepository     _peopleRepository;
 
-        public SomeService(ISomeEntityRepository repository, IPeopleRepository peopleRepository)
+        public SomeService(ISomeEntityRepository repository)
         {
-            _repository       = repository;
-            _peopleRepository = peopleRepository;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<SomeEntity>> GetAll(CancellationToken cancellation)
@@ -34,7 +32,6 @@ namespace Logic
             }
 
             await _repository.Add(entity, cancellation);
-            await _peopleRepository.Add(new Person(entity.Name), cancellation);
         }
 
         [RequiredReturn(typeof(SomeEntity), ErrorMessage = "Entidad no encontrada")]
