@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ArxOne.MrAdvice.Advice;
 using Dawn;
 
-namespace Logic.Guards
+namespace Logic.Filters
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class RequiredArgumentsAttribute : Attribute, IMethodAsyncAdvice

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data.Contracts;
 using Entities;
-using Logic.Guards;
+using Logic.Filters;
 
 namespace Logic
 {

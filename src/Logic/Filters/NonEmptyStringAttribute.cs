@@ -2,7 +2,7 @@
 using ArxOne.MrAdvice.Advice;
 using Dawn;
 
-namespace Logic.Guards
+namespace Logic.Filters
 {
     [AttributeUsage(AttributeTargets.Parameter)]
     public class NonEmptyStringAttribute : Attribute, IParameterAdvice

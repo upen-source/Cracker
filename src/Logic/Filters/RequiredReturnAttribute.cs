@@ -2,9 +2,8 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using ArxOne.MrAdvice.Advice;
-using Dawn;
 
-namespace Logic.Guards
+namespace Logic.Filters
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class RequiredReturnAttribute : Attribute, IMethodAsyncAdvice
@@ -19,13 +18,12 @@ namespace Logic.Guards
 
         public async Task Advise(MethodAsyncAdviceContext context)
         {
-            // TODO: Check for null in method return value
             await context.ProceedAsync();
             object returnValue = GetReturnValue(context.ReturnValue);
-            Guard.Argument(returnValue).NotNull(ErrorMessage);
+            if (returnValue == null) throw new NotFoundException(ErrorMessage);
         }
 
-        public object GetReturnValue(object asyncReturn)
+        private object GetReturnValue(object asyncReturn)
         {
             return asyncReturn is Task
                 ? ((dynamic)asyncReturn).Result
