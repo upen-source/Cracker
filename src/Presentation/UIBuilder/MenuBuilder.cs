@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dawn;
-using Logic.Filters;
 
 namespace Presentation.UIBuilder
 {
@@ -51,8 +50,8 @@ namespace Presentation.UIBuilder
 
         public MenuBuilder WithClear(bool always = false)
         {
-            Menu.ShouldClearConsole    = true;
-            Menu.ClearEachOption = always;
+            Menu.ShouldClearConsole = true;
+            Menu.ClearEachOption    = always;
             return this;
         }
 

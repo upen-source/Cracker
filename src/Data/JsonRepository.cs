@@ -35,13 +35,15 @@ namespace Data
             return await _fileMapper.MapFileContent<TEntity>(_filePath);
         }
 
-        public async Task RemoveWhere(Func<TEntity, bool> predicate, CancellationToken cancellation)
+        public async Task RemoveWhere(Predicate<TEntity> predicate, CancellationToken cancellation)
         {
-            IEnumerable<TEntity> removedEntityCollection = (await GetAll(cancellation)).Where(predicate);
+            IEnumerable<TEntity> removedEntityCollection = (await GetAll(cancellation))
+                .Where(entity => !predicate(entity));
             await SaveAll(removedEntityCollection, cancellation);
         }
 
-        public async Task<TEntity?> GetWhere(Func<TEntity, bool> predicate, CancellationToken cancellation)
+        public async Task<TEntity?> GetWhere(Func<TEntity, bool> predicate,
+            CancellationToken cancellation)
         {
             return (await GetAll(cancellation)).FirstOrDefault(predicate);
         }

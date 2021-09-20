@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using static System.Int32;
 
 namespace Presentation.Utils
 {
@@ -8,7 +7,7 @@ namespace Presentation.Utils
     {
         public        int    Start { get; }
         public        int    End   { get; }
-        public static ARange All   => new(MinValue, MaxValue);
+        public static ARange All   => new(int.MinValue, int.MaxValue);
 
         public ARange(int start, int end)
         {
@@ -16,7 +15,7 @@ namespace Presentation.Utils
             End   = end;
         }
 
-        public bool In(IComparable value)
+        public bool HasValue(IComparable value)
         {
             return value.CompareTo(Start) >= 0 && value.CompareTo(End) <= 0;
         }
@@ -35,7 +34,7 @@ namespace Presentation.Utils
                 try
                 {
                     TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
-                    if (range.Value.In(number as IComparable)) return number;
+                    if (range.Value.HasValue(number as IComparable)) return number;
                     Console.Beep();
                     Console.WriteLine("Valor fuera de rango");
                 }

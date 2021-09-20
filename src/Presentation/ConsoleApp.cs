@@ -51,8 +51,8 @@ namespace Presentation
         {
             return new[]
             {
-                "Usar todos los servicios", "Registrar nueva entidad", "Consultar todo", "Buscar",
-                "", "Salir"
+                "Registrar nueva entidad", "Consultar todo", "Buscar", "Borrar", "Actualizar", "",
+                "Salir"
             };
         }
 
@@ -60,35 +60,23 @@ namespace Presentation
         {
             return new Func<CancellationToken, Task>[]
             {
-                UseAllServices, RegisterNewEntity, ShowAll, FindOne, Menu.PassAsync, Menu.ExitAsync
+                RegisterNewEntity, ShowAll, FindOne, RemoveOne, UpdateOne, Menu.PassAsync,
+                Menu.ExitAsync
             };
         }
 
-        private async Task UseAllServices(CancellationToken cancellationToken)
-        {
-            var ent  = new SomeEntity("123", "Some Name");
-            var ent2 = new SomeEntity("Some Id", "Some Name");
-            await _service.Add(ent, cancellationToken);
-            await _service.Add(ent2, cancellationToken);
-
-            SomeEntity found = await _service.GetById("123", cancellationToken);
-            Console.WriteLine($"Encontrado: {found}");
-
-            var updated = new SomeEntity("New Id", "New Name");
-            await _service.UpdateById(ent2.Id, updated, cancellationToken);
-            await _service.RemoveById("123", cancellationToken);
-
-            await ShowAll(cancellationToken);
-            await _service.RemoveById(updated.Id, cancellationToken);
-        }
-
-        private async Task RegisterNewEntity(CancellationToken cancellationToken)
+        private static SomeEntity AskEntityData()
         {
             Console.Write("Ingrese un id: ");
             string id = Console.ReadLine();
             Console.Write("Ingrese un nombre: ");
             string name = Console.ReadLine();
-            await _service.Add(new SomeEntity(id, name), cancellationToken);
+            return new SomeEntity(id, name);
+        }
+
+        private async Task RegisterNewEntity(CancellationToken cancellationToken)
+        {
+            await _service.Add(AskEntityData(), cancellationToken);
         }
 
         private async Task ShowAll(CancellationToken cancellationToken)
@@ -101,6 +89,23 @@ namespace Presentation
             Console.Write("Ingrese el id a buscar: ");
             string id = Console.ReadLine();
             Console.WriteLine($"Encontrado: {await _service.GetById(id, cancellationToken)}");
+        }
+
+        private async Task RemoveOne(CancellationToken cancellationToken)
+        {
+            Console.Write("Ingrese el id a borrar: ");
+            string id = Console.ReadLine();
+            await _service.RemoveById(id, cancellationToken);
+            Console.WriteLine("Entidad borrada");
+        }
+
+        private async Task UpdateOne(CancellationToken cancellationToken)
+        {
+            Console.Write("Ingrese el id de la entidad para actualizar: ");
+            string id = Console.ReadLine();
+            Console.WriteLine("\nIngrese los nuevos datos.");
+            await _service.UpdateById(id, AskEntityData(), cancellationToken);
+            Console.WriteLine("Entidad actualizada.");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
