@@ -2,12 +2,11 @@ using System.Globalization;
 using Data;
 using Data.Contracts;
 using Data.Utils;
-using Entities;
 using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
-using Presentation.MenuBuilder;
+using Presentation.UIBuilder;
 
 namespace Cracker.Extensions
 {
