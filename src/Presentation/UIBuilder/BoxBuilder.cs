@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Presentation.MenuBuilder
+namespace Presentation.UIBuilder
 {
     public class BoxBuilder
     {

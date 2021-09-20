@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Entities;
 using Logic;
 using Microsoft.Extensions.Hosting;
-using Presentation.MenuBuilder;
+using Presentation.UIBuilder;
 
 namespace Presentation
 {
     public class ConsoleApp : IHostedService
     {
-        private readonly SomeService             _service;
-        private readonly MenuBuilder.MenuBuilder _menuBuilder;
+        private readonly SomeService _service;
+        private readonly MenuBuilder _menuBuilder;
 
-        public ConsoleApp(SomeService service, MenuBuilder.MenuBuilder menuBuilder)
+        public ConsoleApp(SomeService service, MenuBuilder menuBuilder)
         {
             _service     = service;
             _menuBuilder = menuBuilder;
@@ -27,27 +28,40 @@ namespace Presentation
 
         private async Task DisplayMenu(CancellationToken cancellationToken)
         {
-            string[] options =
-            {
-                "Usar todos los servicios", "Registrar nueva entidad", "Consultar todo", "Buscar",
-                "", "Salir"
-            };
-            Func<CancellationToken, Task>[] actions =
-            {
-                UseAllServices, RegisterNewEntity, ShowAll, FindOne, Menu.PassAsync, Menu.ExitAsync
-            };
-            Menu menu = _menuBuilder
-                .WithOptions(options)
-                .WithAsyncActions(actions)
-                .WithExitOption("Salir")
-                .WithClear()
-                .WithQuestion("Ingrese una opcion: ")
-                .Build();
+            Menu menu = CreateMenuBuilder().Build();
 
             while (true)
             {
                 await menu.DisplayAndReadAsync(cancellationToken);
             }
+        }
+
+        private MenuBuilder CreateMenuBuilder()
+        {
+            IEnumerable<string>                        options = GetMenuOptions();
+            IEnumerable<Func<CancellationToken, Task>> actions = GetMenuActions();
+            return _menuBuilder.WithOptions(options)
+                .WithAsyncActions(actions)
+                .WithExitOption("Salir")
+                .WithClear(always: true)
+                .WithQuestion("Ingrese una opcion: ");
+        }
+
+        private static IEnumerable<string> GetMenuOptions()
+        {
+            return new[]
+            {
+                "Usar todos los servicios", "Registrar nueva entidad", "Consultar todo", "Buscar",
+                "", "Salir"
+            };
+        }
+
+        private IEnumerable<Func<CancellationToken, Task>> GetMenuActions()
+        {
+            return new Func<CancellationToken, Task>[]
+            {
+                UseAllServices, RegisterNewEntity, ShowAll, FindOne, Menu.PassAsync, Menu.ExitAsync
+            };
         }
 
         private async Task UseAllServices(CancellationToken cancellationToken)
@@ -58,7 +72,7 @@ namespace Presentation
             await _service.Add(ent2, cancellationToken);
 
             SomeEntity found = await _service.GetById("123", cancellationToken);
-            Console.WriteLine($"Found: {found}");
+            Console.WriteLine($"Encontrado: {found}");
 
             var updated = new SomeEntity("New Id", "New Name");
             await _service.UpdateById(ent2.Id, updated, cancellationToken);

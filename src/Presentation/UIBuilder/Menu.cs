@@ -1,31 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Presentation.Filters;
 using Presentation.Utils;
 
-namespace Presentation.MenuBuilder
+namespace Presentation.UIBuilder
 {
     public class Menu
     {
-        public string                                     Title        { get; set; }
-        public string                                     Question     { get; set; }
-        public IEnumerable<string>                        Options      { get; set; }
-        public IEnumerable<Func<CancellationToken, Task>> AsyncActions { get; set; }
-        public bool                                       ClearConsole { get; set; }
-        public BoxBuilder                                 BoxBuilder   { get; set; }
-
-        public Menu(BoxBuilder boxBuilder)
-        {
-            BoxBuilder   = boxBuilder;
-            AsyncActions = new List<Func<CancellationToken, Task>>();
-            Options      = new List<string>();
-        }
+        public string                                     Title              { get; set; }
+        public string                                     Question           { get; set; }
+        public IEnumerable<string>                        Options            { get; set; }
+        public IEnumerable<Func<CancellationToken, Task>> AsyncActions       { get; set; }
+        public bool                                       ShouldClearConsole { get; set; }
+        public bool                                       ClearEachOption    { get; set; }
 
         public string ExitOption
         {
-            set => BoxBuilder.ExitOption = value;
+            set => _boxBuilder.ExitOption = value;
+        }
+
+        private readonly BoxBuilder _boxBuilder;
+
+
+        public Menu(BoxBuilder boxBuilder)
+        {
+            _boxBuilder  = boxBuilder;
+            AsyncActions = new List<Func<CancellationToken, Task>>();
+            Options      = new List<string>();
         }
 
         public void AddAsyncOption(string option, Func<CancellationToken, Task> action)
@@ -41,9 +46,9 @@ namespace Presentation.MenuBuilder
 
         private void Display()
         {
-            if (ClearConsole) Console.Clear();
+            if (ShouldClearConsole) Console.Clear();
             DisplayTitle();
-            BoxBuilder.BoxIn(Options);
+            _boxBuilder.BoxIn(Options);
         }
 
         public async Task DisplayAndReadAsync(CancellationToken cancellationToken)
@@ -54,13 +59,13 @@ namespace Presentation.MenuBuilder
             }
 
             Display();
-            int choice = ConsoleReader.ReadNumericData(Question, Convert.ToInt32,
-                new ARange(0, AsyncActions.Count() - 2));
+            var range  = new ARange(0, AsyncActions.Count() - 2);
+            int choice = ConsoleReader.ReadNumericData(Question, Convert.ToInt32, range);
+            if (ClearEachOption) Console.Clear();
             await ExecuteOptionAsync(choice, cancellationToken);
-            Console.Write("Presione cualquier tecla para volver al menu...");
+            Console.Write("\nPresione cualquier tecla para volver al menu...");
             Console.ReadKey();
         }
-
 
         private void DisplayTitle()
         {
@@ -70,6 +75,7 @@ namespace Presentation.MenuBuilder
             Console.WriteLine($"{titleSpace}{Title}\n");
         }
 
+        [ExceptionPrompter]
         private async Task ExecuteOptionAsync(int choice, CancellationToken cancellationToken)
         {
             await AsyncActions.ElementAt(GetMenuIndex(choice))(cancellationToken);
@@ -85,13 +91,12 @@ namespace Presentation.MenuBuilder
 
         public static Task ExitAsync(CancellationToken cancellationToken)
         {
-            Environment.Exit(0);
+            Process.GetCurrentProcess().Kill();
             return Task.CompletedTask;
         }
 
         public static Task PassAsync(CancellationToken cancellationToken)
         {
-            // Do nothing in a menu
             return Task.CompletedTask;
         }
     }
