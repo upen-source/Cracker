@@ -1,49 +1,36 @@
 ﻿using System;
 using System.Globalization;
+using Presentation.Exceptions;
+using Presentation.Filters;
 
 namespace Presentation.Utils
 {
-    public struct ARange
-    {
-        public        int    Start { get; }
-        public        int    End   { get; }
-        public static ARange All   => new(int.MinValue, int.MaxValue);
-
-        public ARange(int start, int end)
-        {
-            Start = start;
-            End   = end;
-        }
-
-        public bool HasValue(IComparable value)
-        {
-            return value.CompareTo(Start) >= 0 && value.CompareTo(End) <= 0;
-        }
-    }
-
     public static class ConsoleReader
     {
+        [RepeatOnError]
         public static TNumeric ReadNumericData<TNumeric>(string question,
             Func<string, CultureInfo, TNumeric> parsing, ARange? range = null)
         {
             range ??= ARange.All;
 
-            while (true)
+            Console.Write(question);
+            return AllowOnlyValidInput(parsing, range.Value);
+        }
+
+        private static TNumeric AllowOnlyValidInput<TNumeric>(
+            Func<string, CultureInfo, TNumeric> parsing, ARange range)
+        {
+            try
             {
-                Console.Write(question);
-                try
-                {
-                    TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
-                    if (range.Value.HasValue(number as IComparable)) return number;
-                    Console.Beep();
-                    Console.WriteLine("Valor fuera de rango");
-                }
-                catch (FormatException)
-                {
-                    Console.Beep();
-                    Console.WriteLine("Sólo ingrese valores númericos.");
-                }
+                TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
+                if (range.HasValue(number as IComparable)) return number;
             }
+            catch (FormatException)
+            {
+                throw new InvalidUserActionException("Sólo ingrese números.");
+            }
+
+            throw new InvalidUserActionException("Número fuera de rango.");
         }
     }
 }

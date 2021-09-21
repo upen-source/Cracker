@@ -14,6 +14,7 @@ namespace Cracker.Extensions
     {
         public static void AddDataDependencies(this IServiceCollection services)
         {
+
             services.AddSingleton(_ => new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
