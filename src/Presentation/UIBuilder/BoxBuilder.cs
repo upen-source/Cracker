@@ -8,8 +8,16 @@ namespace Presentation.UIBuilder
     {
         private const int AdditionalWidth = 5;
 
-        public int    Width      { get; private set; }
-        public string ExitOption { get; set; }
+        private int    Width      { get; set; }
+        public  string ExitOption { get; set; }
+
+        public void BoxIn(IEnumerable<string> options)
+        {
+            Width = LongestWordOf(options);
+            PrintHorizontalRule(Width + AdditionalWidth);
+            options.Select(CreateDisplayableElement).ToList().ForEach(Console.WriteLine);
+            PrintHorizontalRule(Width + AdditionalWidth);
+        }
 
         public static int LongestWordOf(IEnumerable<string> words) =>
             words.Max(word => word.Length);
@@ -23,26 +31,24 @@ namespace Presentation.UIBuilder
 
         public static string VoidSpaceOf(int spaceWidth) => new('\0', spaceWidth);
 
-        public void BoxIn(IEnumerable<string> elements)
+        private string CreateDisplayableElement(string element, int position)
         {
-            IEnumerable<string> enumerable = elements.ToList();
-
-            Width = LongestWordOf(enumerable);
-            PrintHorizontalRule(Width + AdditionalWidth);
-            enumerable.Select(DisplayElement).ToList().ForEach(Console.WriteLine);
-            PrintHorizontalRule(Width + AdditionalWidth);
+            string elementWithIndex = ConcatIndex(element, position);
+            return CreateBoxedItem(element, elementWithIndex);
         }
 
-        private string DisplayElement(string element, int index)
+        private string ConcatIndex(string element, int index)
         {
-            var elementIndex = $"{index + 1}.";
-            if (element == ExitOption) elementIndex              = "0.";
-            else if (string.IsNullOrEmpty(element)) elementIndex = "  ";
+            var menuIndex                                = $"{index + 1}.";
+            if (string.IsNullOrEmpty(element)) menuIndex = "  ";
+            if (element == ExitOption) menuIndex         = "0.";
+            return $"| {menuIndex} {element}";
+        }
 
-            var elementWithIndex = $"| {elementIndex} {element}";
-            int spaceBetween     = Width - element.Length;
-            var printableElement = $"{elementWithIndex}{VoidSpaceOf(spaceBetween)} |";
-
+        private string CreateBoxedItem(string originalElement, string element)
+        {
+            int spaceBetween     = Width - originalElement.Length;
+            var printableElement = $"{element}{VoidSpaceOf(spaceBetween)} |";
             return printableElement;
         }
     }

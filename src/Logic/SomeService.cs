@@ -25,13 +25,18 @@ namespace Logic
         [RequiredArguments(ErrorMessage = "Los datos ingresados son inválidos")]
         public async Task Add(SomeEntity entity, CancellationToken cancellation)
         {
-            if (await _repository.GetWhere(someEntity => someEntity.Id == entity.Id,
-                cancellation) != null)
+            if (await IsUserIdRepeated(entity, cancellation))
             {
                 throw new InvalidOperationException("Id de la entidad ya se encuentra registrada");
             }
 
             await _repository.Add(entity, cancellation);
+        }
+
+        private async Task<bool> IsUserIdRepeated(SomeEntity entity, CancellationToken cancellation)
+        {
+            bool IdMatches(SomeEntity someEntity) => someEntity.Id == entity.Id;
+            return await _repository.GetWhere(IdMatches, cancellation) != null;
         }
 
         [RequiredReturn(typeof(SomeEntity), ErrorMessage = "Entidad no encontrada")]

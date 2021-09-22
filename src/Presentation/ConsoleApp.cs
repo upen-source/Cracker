@@ -24,13 +24,12 @@ namespace Presentation
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await DisplayMenu(cancellationToken);
+            Menu menu = CreateMenuBuilder().Build();
+            await DisplayMenu(menu, cancellationToken);
         }
 
-        private async Task DisplayMenu(CancellationToken cancellationToken)
+        private static async Task DisplayMenu(Menu menu, CancellationToken cancellationToken)
         {
-            Menu menu = CreateMenuBuilder().Build();
-
             while (true)
             {
                 await menu.DisplayAndReadAsync(cancellationToken);

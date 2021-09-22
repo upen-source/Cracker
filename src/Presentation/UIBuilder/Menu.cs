@@ -77,8 +77,13 @@ namespace Presentation.UIBuilder
 
         private void ClearConsoleIfPossible()
         {
+            if (ClearEachOption)
+            {
+                Console.Clear();
+                return;
+            }
+
             if (ShouldClearConsole) Console.Clear();
-            if (ClearEachOption) Console.Clear();
         }
 
         private async Task ExecuteOptionAsync(int choice, CancellationToken cancellationToken)

@@ -23,14 +23,20 @@ namespace Presentation.Utils
             try
             {
                 TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
-                if (range.HasValue(number as IComparable)) return number;
+                return GetIfWithinRange(number, range);
             }
             catch (FormatException e)
             {
                 throw new InvalidUserActionException("Sólo ingrese números.", e);
             }
+        }
 
-            throw new InvalidUserActionException("Número fuera de rango.");
+        private static TNumeric GetIfWithinRange<TNumeric>(TNumeric number, ARange range)
+        {
+            if (!range.HasValue(number as IComparable))
+                throw new InvalidUserActionException("Número fuera de rango.");
+
+            return number;
         }
     }
 }
