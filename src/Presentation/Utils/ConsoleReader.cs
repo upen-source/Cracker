@@ -25,9 +25,9 @@ namespace Presentation.Utils
                 TNumeric number = parsing(Console.ReadLine(), CultureInfo.InvariantCulture);
                 if (range.HasValue(number as IComparable)) return number;
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
-                throw new InvalidUserActionException("Sólo ingrese números.");
+                throw new InvalidUserActionException("Sólo ingrese números.", e);
             }
 
             throw new InvalidUserActionException("Número fuera de rango.");

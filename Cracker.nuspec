@@ -3,7 +3,7 @@
   <metadata>
     <id>Cracker.Template</id>
     <title>Cracker.Template</title>
-    <version>0.1.3</version>
+    <version>0.1.4</version>
     <authors>Andres Galvan</authors>
     <owners>Andres Galvan</owners>
     <description>
@@ -14,7 +14,7 @@
     <repository type="git" url="https://github.com/upen-source/Cracker" />
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Use custom exceptions and drop Drawn package in logic layer</releaseNotes>
+    <releaseNotes>Improve error handling in presentation layer</releaseNotes>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
