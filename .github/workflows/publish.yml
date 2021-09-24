@@ -3,8 +3,7 @@ name: NuGet
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, exam]
     paths:
       - "Cracker.nuspec"
 
