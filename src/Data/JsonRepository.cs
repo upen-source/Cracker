@@ -17,17 +17,16 @@ namespace Data
         protected JsonRepository(string filePath, IFileUpdater fileUpdater,
             IFileContentMapper fileMapper)
         {
+            _filePath    = filePath;
             _fileUpdater = fileUpdater;
             _fileMapper  = fileMapper;
-            _filePath    = filePath;
         }
 
         public async Task Add(TEntity entity, CancellationToken cancellation)
         {
-            List<TEntity> paymentsUpdated = (await GetAll(cancellation)).ToList();
-            paymentsUpdated.Add(entity);
-            var updateContent = new UpdateContent<TEntity>(_filePath, paymentsUpdated);
-            await _fileUpdater.UpdateFileWith(updateContent, cancellation);
+            List<TEntity> collectionUpdated = (await GetAll(cancellation)).ToList();
+            collectionUpdated.Add(entity);
+            await SaveAll(collectionUpdated, cancellation);
         }
 
         public async Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellation)
@@ -48,8 +47,7 @@ namespace Data
             return (await GetAll(cancellation)).FirstOrDefault(predicate);
         }
 
-        private async Task SaveAll(IEnumerable<TEntity> entities,
-            CancellationToken cancellation)
+        private async Task SaveAll(IEnumerable<TEntity> entities, CancellationToken cancellation)
         {
             var updateContent = new UpdateContent<TEntity>(_filePath, entities);
             await _fileUpdater.UpdateFileWith(updateContent, cancellation);

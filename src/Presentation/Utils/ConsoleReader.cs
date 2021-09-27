@@ -11,14 +11,12 @@ namespace Presentation.Utils
         public static TNumeric ReadNumericData<TNumeric>(string question,
             Func<string, CultureInfo, TNumeric> parsing, ARange? range = null)
         {
-            range ??= ARange.All;
-
             Console.Write(question);
-            return AllowOnlyValidInput(parsing, range.Value);
+            return AllowOnlyValidInput(parsing, range);
         }
 
         private static TNumeric AllowOnlyValidInput<TNumeric>(
-            Func<string, CultureInfo, TNumeric> parsing, ARange range)
+            Func<string, CultureInfo, TNumeric> parsing, ARange? range)
         {
             try
             {
@@ -31,9 +29,9 @@ namespace Presentation.Utils
             }
         }
 
-        private static TNumeric GetIfWithinRange<TNumeric>(TNumeric number, ARange range)
+        private static TNumeric GetIfWithinRange<TNumeric>(TNumeric number, ARange? range)
         {
-            if (!range.HasValue(number as IComparable))
+            if (range != null && !range.Value.HasValue(number as IComparable))
                 throw new InvalidUserActionException("Número fuera de rango.");
 
             return number;
