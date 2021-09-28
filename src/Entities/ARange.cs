@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Presentation.Utils
+namespace Entities
 {
     public readonly struct ARange
     {
