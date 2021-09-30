@@ -5,6 +5,7 @@ using Data.Utils;
 using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Presentation;
 
 namespace Cracker.Extensions
 {
@@ -30,6 +31,7 @@ namespace Cracker.Extensions
 
         public static void AddPresentationDependencies(this IServiceCollection services)
         {
+            services.AddTransient<OtherWindow>();
         }
     }
 }
