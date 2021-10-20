@@ -6,7 +6,6 @@ using Logic;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Presentation;
-using Presentation.UIBuilder;
 
 namespace Cracker.Extensions
 {
@@ -14,7 +13,6 @@ namespace Cracker.Extensions
     {
         public static void AddDataDependencies(this IServiceCollection services)
         {
-
             services.AddSingleton(_ => new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
@@ -23,20 +21,18 @@ namespace Cracker.Extensions
             });
             services.AddScoped<IFileUpdater, JsonFileChannel>();
             services.AddScoped<IFileContentMapper, JsonFileChannel>();
-            services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
+            // services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
         }
 
         public static void AddLogicDependencies(this IServiceCollection services)
         {
-            services.AddScoped<SomeService>();
+            // services.AddScoped<SomeService>();
         }
 
         public static void AddPresentationDependencies(this IServiceCollection services)
         {
-            services.AddScoped<BoxBuilder>();
-            services.AddScoped<Menu>();
-            services.AddScoped<MenuBuilder>();
-            services.AddHostedService<ConsoleApp>();
+            services.AddTransient<MainWindow>();
+            services.AddTransient<OtherWindow>();
         }
     }
 }

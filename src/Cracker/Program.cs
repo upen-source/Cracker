@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Cracker.Extensions;
+﻿using Cracker.Extensions;
+using Cracker.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -7,18 +7,21 @@ namespace Cracker
 {
     internal static class Program
     {
-        private static Task Main(string[] args) =>
-            CreateHostBuilder(args).Build().RunAsync();
-
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureServices(InjectDependencies);
-
-        private static void InjectDependencies(IServiceCollection services)
+        private static void Main(string[] args)
         {
-            services.AddDataDependencies();
-            services.AddLogicDependencies();
-            services.AddPresentationDependencies();
+            IHost host = CreateHost(args);
+            host.StartHost();
+            host.StarApplication();
+        }
+
+        private static IHost CreateHost(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureServices(InitDefaultStartup)
+                .Build();
+
+        private static void InitDefaultStartup(IServiceCollection services)
+        {
+            new Startup(Configuration.Startup).ConfigureServices(services);
         }
     }
 }
