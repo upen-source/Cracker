@@ -21,16 +21,17 @@ namespace Cracker.Extensions
             });
             services.AddScoped<IFileUpdater, JsonFileChannel>();
             services.AddScoped<IFileContentMapper, JsonFileChannel>();
-            services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
+            // services.AddScoped<ISomeEntityRepository, SomeEntitiesJsonRepository>();
         }
 
         public static void AddLogicDependencies(this IServiceCollection services)
         {
-            services.AddScoped<SomeService>();
+            // services.AddScoped<SomeService>();
         }
 
         public static void AddPresentationDependencies(this IServiceCollection services)
         {
+            services.AddTransient<MainWindow>();
             services.AddTransient<OtherWindow>();
         }
     }

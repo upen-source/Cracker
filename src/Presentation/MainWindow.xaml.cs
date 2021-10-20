@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Dapplo.Microsoft.Extensions.Hosting.Wpf;
-using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation
@@ -9,14 +7,14 @@ namespace Presentation
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow, IWpfShell
+    public partial class MainWindow : Window
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _services;
 
-        public MainWindow(IServiceProvider serviceProvider)
+        public MainWindow(IServiceProvider services)
         {
+            _services = services;
             InitializeComponent();
-            _serviceProvider = serviceProvider;
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
@@ -26,8 +24,8 @@ namespace Presentation
 
         private void ButtonAnotherWindow_Click(object sender, RoutedEventArgs e)
         {
-            var otherWindow = _serviceProvider.GetRequiredService<OtherWindow>();
-            otherWindow.Show();
+            var otherWindow = _services.GetRequiredService<OtherWindow>();
+            otherWindow.ShowDialog();
         }
     }
 }

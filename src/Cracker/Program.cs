@@ -1,54 +1,27 @@
-﻿using System.Threading.Tasks;
-using Cracker.Extensions;
-using Dapplo.Microsoft.Extensions.Hosting.AppServices;
-using Dapplo.Microsoft.Extensions.Hosting.Wpf;
+﻿using Cracker.Extensions;
+using Cracker.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Presentation;
 
 namespace Cracker
 {
     internal static class Program
     {
-        private static Task Main(string[] args) =>
-            CreateHostBuilder(args).Build().RunAsync();
+        private static void Main(string[] args)
+        {
+            IHost host = CreateHost(args);
+            host.StartHost();
+            host.StarApplication();
+        }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHost CreateHost(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWpfApp()
-                .ConfigureServices(InjectDependencies);
+                .ConfigureServices(InitDefaultStartup)
+                .Build();
 
-        private static IHostBuilder ConfigureWpfApp(this IHostBuilder hostBuilder)
+        private static void InitDefaultStartup(IServiceCollection services)
         {
-            return hostBuilder
-                .ConfigureWpf(wpfBuilder =>
-                {
-                    wpfBuilder.UseApplication<App>();
-                    wpfBuilder.UseWindow<MainWindow>();
-                })
-                .ConfigureSingleInstance()
-                .UseWpfLifetime();
-        }
-
-        private static IHostBuilder ConfigureSingleInstance(this IHostBuilder hostBuilder)
-        {
-            return hostBuilder.ConfigureSingleInstance(builder =>
-            {
-                builder.MutexId = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}";
-                builder.WhenNotFirstInstance = (hostingEnvironment, logger) =>
-                {
-                    logger.LogWarning(
-                        $"Application {hostingEnvironment.ApplicationName} already running");
-                };
-            });
-        }
-
-        private static void InjectDependencies(IServiceCollection services)
-        {
-            services.AddDataDependencies();
-            services.AddLogicDependencies();
-            services.AddPresentationDependencies();
+            new Startup(Configuration.Startup).ConfigureServices(services);
         }
     }
 }

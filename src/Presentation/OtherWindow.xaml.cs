@@ -1,9 +1,8 @@
 ﻿using System.Windows;
-using MahApps.Metro.Controls;
 
 namespace Presentation
 {
-    public partial class OtherWindow : MetroWindow
+    public partial class OtherWindow : Window
     {
         public OtherWindow()
         {

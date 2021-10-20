@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="0.6.3" />
-    <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Plugins" Version="0.6.3" />
-    <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Wpf" Version="0.6.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
