@@ -5,9 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:buttons="clr-namespace:Presentation.Components.Buttons"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button>Yanfri</Button>
+        <StackPanel Orientation="Vertical">
+            <buttons:ButtonUserControl ButtonContent="Hola"/>
+
+            <Button>Yanfri</Button>
+        </StackPanel>
     </Grid>
 </Window>

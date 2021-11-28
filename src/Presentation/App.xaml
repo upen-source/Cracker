@@ -10,6 +10,8 @@
                                              SecondaryColor="Lime"
                                              ColorAdjustment="{materialDesign:ColorAdjustment}" />
                 <ResourceDictionary
+                    Source="Styles/TextStyles.xaml" />
+                <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary
                     Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />

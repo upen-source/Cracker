@@ -5,9 +5,6 @@ using Presentation.Extensions;
 
 namespace Presentation
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public IServiceProvider ServiceProvider { get; set; }
