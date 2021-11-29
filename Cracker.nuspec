@@ -3,8 +3,8 @@
   <metadata>
     <id>Cracker.Template</id>
     <title>Cracker.Template</title>
-    <version>0.2.5</version>
-    <authors>Andres Galvan</authors>
+    <version>0.3.0</version>
+    <authors>Andres Galvan, Javier Guerra</authors>
     <owners>Andres Galvan</owners>
     <description>
       Template for college assigments
@@ -14,7 +14,7 @@
     <repository type="git" url="https://github.com/upen-source/Cracker" />
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>Add GUI with WPF using Material Design</releaseNotes>
+    <releaseNotes>Add GUI with WPF using Material Design and SQL Server</releaseNotes>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>
