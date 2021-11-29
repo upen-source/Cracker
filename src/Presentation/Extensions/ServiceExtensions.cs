@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Data.Common;
+using System.Data.SqlClient;
+using Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Presentation.Settings;
+using Presentation.Windows;
 
 namespace Presentation.Extensions
 {
@@ -11,7 +17,11 @@ namespace Presentation.Extensions
 
         public static void AddDataDependencies(this IServiceCollection services)
         {
-            // Add data dependencies
+            IConfiguration configuration = SettingsLoader.Configuration;
+            services.AddSingleton(configuration);
+            services.AddSingleton<DbConnection>(
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<PeopleRepository>();
         }
     }
 }

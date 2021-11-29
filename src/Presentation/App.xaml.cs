@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using Data;
+using Entities;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Extensions;
+using Presentation.Windows;
 
 namespace Presentation
 {
