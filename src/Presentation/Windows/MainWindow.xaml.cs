@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Data;
 using Entities;
+using Presentation.Filters;
 
 namespace Presentation.Windows
 {
@@ -20,7 +21,5 @@ namespace Presentation.Windows
                 .Aggregate((c, n) => $"{c}\n{n}");
             MessageBox.Show(repo.FindById("333").Id);
         }
-
-
     }
 }
